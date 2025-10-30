@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, jsonify
 import sqlite3
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -12,6 +13,47 @@ def get_db():
     conn = sqlite3.connect('data.db')
     conn.row_factory = sqlite3.Row
     return conn
+
+# Dashboard Route (NEW)
+@app.route('/dashboard')
+def dashboard():
+    conn = get_db()
+    items = conn.execute('SELECT * FROM items ORDER BY id DESC').fetchall()
+    
+    # Statistics
+    total_items = len(items)
+    items_with_desc = len([item for item in items if item['description']])
+    items_without_desc = total_items - items_with_desc
+    
+    # Recent items (last 5)
+    recent_items = items[:5] if len(items) > 0 else []
+    
+    conn.close()
+    
+    return render_template('dashboard.html', 
+                         total_items=total_items,
+                         items_with_desc=items_with_desc,
+                         items_without_desc=items_without_desc,
+                         recent_items=recent_items)
+
+# API for dashboard chart (NEW)
+@app.route('/api/stats')
+def api_stats():
+    conn = get_db()
+    items = conn.execute('SELECT created_at FROM items ORDER BY created_at').fetchall()
+    conn.close()
+    
+    # Count items per day
+    daily_counts = {}
+    for item in items:
+        if item['created_at']:
+            date = item['created_at'].split()[0]  # Get date only
+            daily_counts[date] = daily_counts.get(date, 0) + 1
+    
+    return jsonify({
+        'dates': list(daily_counts.keys()),
+        'counts': list(daily_counts.values())
+    })
 
 @app.route('/')
 def index():
@@ -59,6 +101,11 @@ def view(id):
     item = conn.execute('SELECT * FROM items WHERE id=?', (id,)).fetchone()
     conn.close()
     return render_template('view.html', item=item)
+
+# About Page (NEW)
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 if __name__ == '__main__':
     init_db()

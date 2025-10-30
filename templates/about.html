@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About - CRUD App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* Navigation */
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 15px 30px;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      animation: fadeInDown 0.6s ease;
+    }
+
+    .navbar-brand {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #667eea;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .navbar-menu {
+      display: flex;
+      gap: 15px;
+      list-style: none;
+    }
+
+    .navbar-menu a {
+      text-decoration: none;
+      color: #333;
+      padding: 8px 20px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+    }
+
+    .navbar-menu a:hover {
+      background: #667eea;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .navbar-menu a.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .page-header {
+      text-align: center;
+      color: white;
+      margin-bottom: 40px;
+      animation: fadeInDown 0.6s ease;
+    }
+
+    .page-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .page-header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .content-card {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      margin-bottom: 30px;
+      animation: fadeInUp 0.6s ease;
+    }
+
+    .hero-section {
+      text-align: center;
+      padding: 40px 0;
+      border-bottom: 2px solid #f0f0f0;
+      margin-bottom: 40px;
+    }
+
+    .hero-icon {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      animation: pulse 2s infinite;
+    }
+
+    .hero-icon i {
+      font-size: 3rem;
+      color: white;
+    }
+
+    .hero-section h2 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    .hero-section p {
+      font-size: 1.1rem;
+      color: #666;
+      line-height: 1.8;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+
+    .feature-card {
+      background: #f8f9fa;
+      padding: 25px;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: #667eea;
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+    }
+
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .feature-icon i {
+      font-size: 1.8rem;
+      color: white;
+    }
+
+    .feature-card h3 {
+      font-size: 1.2rem;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      color: #666;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .tech-stack {
+      margin-top: 40px;
+    }
+
+    .tech-stack h3 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .tech-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .tech-badge {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .tech-badge:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .cta-section {
+      text-align: center;
+      padding: 40px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 15px;
+      color: white;
+      margin-top: 40px;
+    }
+
+    .cta-section h3 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+
+    .cta-section p {
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+      opacity: 0.9;
+    }
+
+    .btn {
+      padding: 12px 30px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-light {
+      background: white;
+      color: #667eea;
+    }
+
+    .btn-light:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .navbar-menu {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .navbar-menu a {
+        justify-content: center;
+      }
+
+      .content-card {
+        padding: 25px;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .page-header h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <i class="fas fa-database"></i>
+      CRUD App
+    </div>
+    <ul class="navbar-menu">
+      <li><a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+      <li><a href="/"><i class="fas fa-list"></i> Items</a></li>
+      <li><a href="/about" class="active"><i class="fas fa-info-circle"></i> About</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1><i class="fas fa-info-circle"></i> About</h1>
+      <p>Learn more about this application and its features</p>
+    </div>
+
+    <!-- Content Card -->
+    <div class="content-card">
+      <!-- Hero Section -->
+      <div class="hero-section">
+        <div class="hero-icon">
+          <i class="fas fa-rocket"></i>
+        </div>
+        <h2>Modern CRUD Application</h2>
+        <p>
+          A beautiful and powerful web application built with Flask and modern web technologies.
+          This application demonstrates complete CRUD (Create, Read, Update, Delete) operations
+          with an intuitive and responsive user interface.
+        </p>
+      </div>
+
+      <!-- Features -->
+      <h3 style="text-align: center; font-size: 1.8rem; color: #333; margin-bottom: 30px;">
+        <i class="fas fa-star" style="color: #667eea;"></i> Key Features
+      </h3>
+      
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-plus-circle"></i>
+          </div>
+          <h3>Create</h3>
+          <p>Easily add new items with name and description fields. Simple and intuitive form interface.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-eye"></i>
+          </div>
+          <h3>Read</h3>
+          <p>View all items in a beautiful grid layout with detailed information and search capabilities.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-edit"></i>
+          </div>
+          <h3>Update</h3>
+          <p>Edit existing items with a user-friendly interface. All changes are saved instantly.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-trash"></i>
+          </div>
+          <h3>Delete</h3>
+          <p>Remove items safely with confirmation dialogs to prevent accidental deletions.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3>Dashboard</h3>
+          <p>Monitor statistics and view analytics with interactive charts and real-time data.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <h3>Responsive</h3>
+          <p>Fully responsive design that works perfectly on desktop, tablet, and mobile devices.</p>
+        </div>
+      </div>
+
+      <!-- Tech Stack -->
+      <div class="tech-stack">
+        <h3><i class="fas fa-code" style="color: #667eea;"></i> Built With</h3>
+        <div class="tech-list">
+          <div class="tech-badge">
+            <i class="fab fa-python"></i> Python
+          </div>
+          <div class="tech-badge">
+            <i class="fas fa-flask"></i> Flask
+          </div>
+          <div class="tech-badge">
+            <i class="fas fa-database"></i> SQLite
+          </div>
+          <div class="tech-badge">
+            <i class="fab fa-html5"></i> HTML5
+          </div>
+          <div class="tech-badge">
+            <i class="fab fa-css3-alt"></i> CSS3
+          </div>
+          <div class="tech-badge">
+            <i class="fab fa-js"></i> JavaScript
+          </div>
+          <div class="tech-badge">
+            <i class="fas fa-chart-bar"></i> Chart.js
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Section -->
+      <div class="cta-section">
+        <h3>Ready to Get Started?</h3>
+        <p>Start managing your items efficiently with our modern CRUD application.</p>
+        <a href="/" class="btn btn-light">
+          <i class="fas fa-arrow-right"></i> Go to Items
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
